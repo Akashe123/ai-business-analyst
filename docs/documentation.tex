@@ -1,0 +1,291 @@
+\documentclass[12pt,a4paper]{article}
+
+% ─── Packages ───
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{caption}
+
+% ─── Code Style ───
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red}
+}
+
+% ─── Header/Footer ───
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ─── Title ───
+\title{
+    \vspace{-2cm}
+    \textbf{AI Business Analyst Assistant}\\
+    \large Technical Documentation
+}
+\author{Akashe123}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\tableofcontents
+\newpage
+
+% ─────────────────────────────────────────────
+\section{Introduction}
+% ─────────────────────────────────────────────
+
+The \textbf{AI Business Analyst Assistant} is an intelligent web application that bridges the gap between natural language and data analysis. It allows business users to upload their data (CSV/Excel files) and ask analytical questions in plain English, receiving instant SQL queries, visualizations, and actionable insights.
+
+Business users traditionally spend hours waiting for reports or writing complex SQL queries. This system eliminates that bottleneck by leveraging Large Language Models (LLMs) to automatically translate natural language into database queries, execute them, and present results in an intuitive interface.
+
+\subsection{Problem Statement}
+Business users face several challenges in data analysis:
+\begin{itemize}
+    \item \textbf{Technical Barriers:} Require SQL knowledge to query databases.
+    \item \textbf{Time Constraints:} Waiting for IT teams to generate reports.
+    \item \textbf{Data Overload:} Difficulty extracting meaningful insights from raw data.
+    \item \textbf{Visualization Gaps:} Need separate tools for charting and analysis.
+\end{itemize}
+
+\subsection{Solution Overview}
+Our application addresses these challenges by providing:
+\begin{itemize}
+    \item A modern web interface for uploading data files (CSV/Excel).
+    \item Natural language processing to understand business questions.
+    \item Automatic SQL query generation using AI.
+    \item Real-time data visualization with interactive charts.
+    \item AI-generated business insights and recommendations.
+\end{itemize}
+
+% ─────────────────────────────────────────────
+\section{System Architecture}
+% ─────────────────────────────────────────────
+
+The system follows a modern three-tier architecture:
+
+\subsection{Architecture Overview}
+
+\begin{tabular}{lp{10cm}}
+\toprule
+\textbf{Tier} & \textbf{Components} \\
+\midrule
+Frontend & Next.js 14, React 18, Recharts, TypeScript \\
+Backend & FastAPI, LangChain, Groq AI, Pandas \\
+Database & Neon (Serverless PostgreSQL), SQLAlchemy \\
+Deployment & Vercel (Frontend + Backend) \\
+\bottomrule
+\end{tabular}
+
+\subsection{Data Flow}
+
+The data flow follows this sequence:
+
+\begin{enumerate}
+    \item \textbf{User Input:} User uploads a CSV/Excel file or asks a question.
+    \item \textbf{AI Processing:} Groq AI (LLaMA 3.3-70B) processes the natural language question.
+    \item \textbf{SQL Generation:} The AI generates a SQL query based on the database schema.
+    \item \textbf{Query Execution:} The query runs against the Neon PostgreSQL database.
+    \item \textbf{Analysis:} Results are analyzed for statistics and patterns.
+    \item \textbf{Insights:} AI generates business insights from the analyzed data.
+    \item \textbf{Visualization:} Charts are rendered using Recharts.
+    \item \textbf{Display:} Results are presented in the modern dark-theme UI.
+\end{enumerate}
+
+% ─────────────────────────────────────────────
+\section{Technology Stack}
+% ─────────────────────────────────────────────
+
+\subsection{Frontend}
+\begin{itemize}
+    \item \textbf{Next.js 14:} React framework with server-side rendering.
+    \item \textbf{React 18:} UI component library.
+    \item \textbf{Recharts:} Composable charting library built on D3.js.
+    \item \textbf{TypeScript:} Type-safe JavaScript.
+\end{itemize}
+
+\subsection{Backend}
+\begin{itemize}
+    \item \textbf{FastAPI:} High-performance Python web framework.
+    \item \textbf{LangChain:} Framework for LLM-powered applications.
+    \item \textbf{Groq API:} Fast inference for LLaMA 3.3-70B model.
+    \item \textbf{Pandas:} Data manipulation and analysis.
+\end{itemize}
+
+\subsection{Database}
+\begin{itemize}
+    \item \textbf{Neon:} Serverless PostgreSQL with branching and autoscaling.
+    \item \textbf{SQLAlchemy:} Python SQL toolkit and ORM.
+    \item \textbf{psycopg2:} PostgreSQL adapter for Python.
+\end{itemize}
+
+% ─────────────────────────────────────────────
+\section{Installation and Setup}
+% ─────────────────────────────────────────────
+
+\subsection{Prerequisites}
+\begin{itemize}
+    \item Python 3.11 or higher
+    \item Node.js 18 or higher
+    \item A Groq API key (free at \url{https://console.groq.com/keys})
+    \item A Neon database (free at \url{https://console.neon.tech})
+\end{itemize}
+
+\subsection{Backend Setup}
+
+\begin{lstlisting}[language=bash, caption=Backend Installation]
+cd backend
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+\end{lstlisting}
+
+\subsection{Environment Configuration}
+
+Create a \texttt{.env} file in the \texttt{backend/} directory:
+
+\begin{lstlisting}[caption=Environment Variables]
+GROQ_API_KEY=gsk_your_groq_api_key_here
+DATABASE_URL=postgresql://user:pass@ep-xxx.aws.neon.tech/neondb?sslmode=require
+\end{lstlisting}
+
+\subsection{Frontend Setup}
+
+\begin{lstlisting}[language=bash, caption=Frontend Installation]
+cd frontend
+npm install
+\end{lstlisting}
+
+\subsection{Running the Application}
+
+Open two terminals:
+
+\begin{lstlisting}[language=bash, caption=Start Backend (Terminal 1)]
+cd backend
+venv\Scripts\activate
+uvicorn main:app --reload --port 8000
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash, caption=Start Frontend (Terminal 2)]
+cd frontend
+npm run dev
+\end{lstlisting}
+
+Access the application at \url{http://localhost:3000}.
+
+% ─────────────────────────────────────────────
+\section{API Reference}
+% ─────────────────────────────────────────────
+
+\subsection{Endpoints}
+
+\begin{tabular}{lll}
+\toprule
+\textbf{Method} & \textbf{Endpoint} & \textbf{Description} \\
+\midrule
+POST & /api/ask & Ask a business question \\
+POST & /api/upload & Upload CSV/Excel file \\
+GET & /api/tables & List database tables \\
+GET & /api/schema & Get database schema \\
+GET & /api/health & Health check \\
+\bottomrule
+\end{tabular}
+
+\subsection{POST /api/ask}
+
+\begin{lstlisting}[caption=Request]
+{
+    "question": "Show me total sales by region"
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Response]
+{
+    "sql": "SELECT region, SUM(sales_amount) ...",
+    "data": [...],
+    "columns": ["region", "total_sales"],
+    "insights": "1. Key finding: ...",
+    "chart_recommendation": "bar"
+}
+\end{lstlisting}
+
+% ─────────────────────────────────────────────
+\section{Screenshots}
+% ─────────────────────────────────────────────
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{screenshots/dashboard.png}
+\caption{Main Dashboard}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{screenshots/upload.png}
+\caption{File Upload}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{screenshots/chart.png}
+\caption{Interactive Charts}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{screenshots/insights.png}
+\caption{AI-Generated Insights}
+\end{figure}
+
+% ─────────────────────────────────────────────
+\section{Deployment}
+% ─────────────────────────────────────────────
+
+\subsection{Deploy to Vercel}
+
+Both frontend and backend can be deployed to Vercel:
+
+\begin{lstlisting}[language=bash, caption=Deploy Backend]
+cd backend
+npm i -g vercel
+vercel --prod
+\end{lstlisting}
+
+Set environment variables in Vercel dashboard: GROQ\_API\_KEY, DATABASE\_URL.
+
+\begin{lstlisting}[language=bash, caption=Deploy Frontend]
+cd frontend
+vercel --prod
+\end{lstlisting}
+
+Set environment variable: NEXT\_PUBLIC\_API\_URL = your backend URL.
+
+% ─────────────────────────────────────────────
+\section{Conclusion}
+% ─────────────────────────────────────────────
+
+The AI Business Analyst Assistant successfully demonstrates how Large Language Models can democratize data analysis. By combining natural language processing, automated SQL generation, and interactive visualization, the system enables business users to derive insights from their data without technical expertise.
+
+\end{document}
