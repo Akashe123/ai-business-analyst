@@ -220,7 +220,7 @@ This project is licensed under the MIT License.
   •
   <a href="https://github.com/Akashe123/ai-business-analyst/issues">✨ Request Feature</a>
   •
-  <a href="docs/documentation.pdf">📄 Documentation</a>
+  <a href="docs/report_AI_Business_Analyst_Assistant.pdf">📄 Documentation</a>
 </p>
 
 <p align="center">
